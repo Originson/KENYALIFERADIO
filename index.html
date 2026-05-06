@@ -1,97 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenya Life Radio</title>
+
+<style>
 body {
-margin:0;
-font-family:Arial;
-background:#000;
-color:white;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #050505;
+  color: white;
 }
 
+/* HEADER */
 header {
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 30px;
-background:#111;
+  background: #111;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid red;
 }
 
 .logo {
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.logo img {
-width:45px;
-height:45px;
-border-radius:50%;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 nav a {
-color:white;
-margin-left:15px;
-text-decoration:none;
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
 }
 
+/* HERO */
 .hero {
-height:90vh;
-background:url('assets/cover.jpg') center/cover;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-position:relative;
-}
-
-.overlay {
-position:absolute;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-top:0;
-left:0;
+  text-align: center;
+  padding: 120px 20px;
+  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+  url('assets/cover.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .hero h1 {
-font-size:50px;
-z-index:2;
+  font-size: 55px;
 }
 
 .tagline {
-color:#00ff55;
-z-index:2;
+  color: #00ff55;
+  font-size: 18px;
 }
 
 .live {
-background:red;
-padding:8px 15px;
-border-radius:20px;
-margin:10px;
-z-index:2;
+  background: red;
+  padding: 8px 15px;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 15px;
+  animation: pulse 1.5s infinite;
 }
 
-button {
-padding:12px 25px;
-border:none;
-border-radius:25px;
-background:linear-gradient(red,green);
-color:white;
-cursor:pointer;
-z-index:2;
+@keyframes pulse {
+  0% {opacity:1;}
+  50% {opacity:0.4;}
+  100% {opacity:1;}
 }
 
-#player {
-display:none;
-margin-top:15px;
-z-index:2;
+/* BUTTON */
+.btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(90deg, red, green);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
+/* PLAYER */
+#playerBox {
+  display: none;
+  margin-top: 20px;
+}
+
+/* SECTIONS */
 .section {
-padding:60px;
-text-align:center;
+  padding: 60px 20px;
+  text-align: center;
 }
 
+/* FOOTER */
 footer {
-background:#111;
-text-align:center;
-padding:20px;
+  background: #111;
+  padding: 20px;
+  text-align: center;
 }
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">🎧 KENYA LIFE RADIO</div>
+<nav>
+<a href="#live">Live</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section class="hero" id="live">
+
+<h1>KENYA LIFE RADIO</h1>
+<p class="tagline">vMix → GoLiveAfrica → You → Listener</p>
+
+<div class="live">🔴 LIVE NOW</div>
+
+<br>
+
+<button class="btn" onclick="playRadio()">▶ LISTEN LIVE</button>
+
+<div id="playerBox">
+<audio id="radio" controls>
+<source src="https://goliveafrica.media/live/1/KENYALIFERADIO" type="audio/mpeg">
+</audio>
+</div>
+
+</section>
+
+<section class="section" id="about">
+<h2>About Kenya Life Radio</h2>
+<p>
+We broadcast 24/7 music, entertainment, and culture from Kenya to the world.
+</p>
+</section>
+
+<section class="section" id="contact">
+<h2>Contact</h2>
+<p>WhatsApp: +254725822639</p>
+</section>
+
+<footer>
+© 2026 Kenya Life Radio
+</footer>
+
+<script>
+function playRadio() {
+  const player = document.getElementById("playerBox");
+  const audio = document.getElementById("radio");
+
+  player.style.display = "block";
+  audio.play();
+}
+</script>
+
+</body>
+</html>
