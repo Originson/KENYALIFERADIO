@@ -94,11 +94,20 @@ a {
 
 <!-- HEADER -->
 <div class="header">
-  <!-- EDIT LOGO HERE -->
   <img src="https://via.placeholder.com/120" class="logo" alt="Logo">
 
   <div class="title">Kenya Life Radio</div>
   <p>Live Gospel • Talk • Music • News</p>
+
+  <!-- MAIN STREAM LINK -->
+  <p>
+    🔗 <a href="https://goliveafrica.media/live/1/KENYALIFERADIO" target="_blank">Open Live Stream</a>
+  </p>
+
+  <!-- YOUTUBE -->
+  <p>
+    ▶ <a href="https://www.youtube.com/@kenyaliferadio" target="_blank">Watch on YouTube</a>
+  </p>
 </div>
 
 <!-- COVER PHOTO -->
@@ -109,17 +118,17 @@ a {
 
   <h2>🎧 Listen Live</h2>
 
-  <video id="radio" controls autoplay style="width:100%;border-radius:10px;"></video>
+  <video id="radio" controls autoplay muted style="width:100%;border-radius:10px;"></video>
 
   <div class="status" id="status">🔴 Connecting...</div>
 
   <button onclick="playRadio()">▶ Play</button>
   <button onclick="pauseRadio()">⏸ Pause</button>
   <button onclick="openStream()">🌐 Open Stream</button>
-  <button onclick="openYouTube()">▶ Watch on YouTube</button>
+  <button onclick="openYouTube()">▶ YouTube</button>
 
   <p>
-    🔗 Backup: <a href="https://goliveafrica.media/live/1/KENYALIFERADIO" target="_blank">GoLive Stream</a>
+    🔗 Backup Stream: <a href="https://goliveafrica.media/live/1/KENYALIFERADIO" target="_blank">Click Here</a>
   </p>
 
 </div>
@@ -132,18 +141,22 @@ const video = document.getElementById('radio');
 const status = document.getElementById('status');
 
 function initStream() {
+  video.muted = true;
+
   if (Hls.isSupported()) {
     const hls = new Hls();
     hls.loadSource(stream);
     hls.attachMedia(video);
+
     hls.on(Hls.Events.MANIFEST_PARSED, function() {
       video.play();
-      status.innerText = "🔴 LIVE - Streaming Now";
+      status.innerText = "🔴 LIVE - Playing Now";
     });
 
     hls.on(Hls.Events.ERROR, function() {
-      status.innerText = "⚠ Stream error - using fallback";
+      status.innerText = "⚠ Stream error - using backup";
     });
+
   } else {
     video.src = stream;
     video.play();
@@ -168,7 +181,7 @@ function openYouTube(){
   window.open("https://www.youtube.com/@kenyaliferadio", "_blank");
 }
 
-initStream();
+window.addEventListener('load', initStream);
 </script>
 
 </body>
