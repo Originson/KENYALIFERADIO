@@ -65,19 +65,9 @@ button:hover {
   <source src="https://goliveafrica.media/live/1/KENYALIFERADIO" type="audio/mpeg">
 </audio>
 
-<button onclick="document.getElementById('radio').play()">
-  ▶ Listen Live
+<button onclick="window.open('https://yourstreamlink.m3u8', '_blank')">
+▶ LISTEN LIVE
 </button>
-<audio id="radio" controls style="width:100%;">
-  <source src="https://goliveafrica.media/live/1/KENYALIFERADIO" type="audio/mpeg">
-  Your browser does not support audio playback.
-</audio>
-
-<div class="status" id="status">Ready to play</div>
-
-<button onclick="playRadio()">▶ Play</button>
-<button onclick="pauseRadio()">⏸ Pause</button>
-<button onclick="openStream()">🌐 Open External Player</button>
 
 <script>
 const radio = document.getElementById('radio');
