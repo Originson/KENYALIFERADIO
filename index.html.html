@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenyan Life Radio</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0f1a;
+  color: #fff;
+  text-align: center;
+}
+.header {
+  padding: 20px;
+  background: #111a2e;
+}
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00d4ff;
+}
+.player {
+  margin-top: 40px;
+}
+button {
+  background: #00d4ff;
+  border: none;
+  padding: 15px 25px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+}
+button:hover {
+  background: #00a3c4;
+}
+.card {
+  background: #111a2e;
+  margin: 20px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+}
+.status {
+  margin-top: 15px;
+  color: #00ff99;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Kenyan Life Radio</div>
+  <p>Live Gospel • Talk • News • Entertainment</p>
+</div>
+
+<div class="player">
+  <div class="card">
+    <h2>🎧 Listen Live</h2>
+
+    <!-- Direct Stream Player -->
+    <audio id="radio" controls style="width:100%;">
+      <source src="https://goliveafrica.media/live/1/KENYALIFERADIO" type="audio/mpeg">
+      Your browser does not support audio playback.
+    </audio>
+
+    <div class="status" id="status">Ready to play</div>
+
+    <button onclick="playRadio()">▶ Play</button>
+    <button onclick="pauseRadio()">⏸ Pause</button>
+    <button onclick="openStream()">🌐 Open External Player</button>
+  </div>
+</div>
+
+<script>
+const radio = document.getElementById('radio');
+const status = document.getElementById('status');
+
+function playRadio() {
+  radio.play();
+  status.innerText = "🔴 LIVE - Playing Kenyan Life Radio";
+}
+
+function pauseRadio() {
+  radio.pause();
+  status.innerText = "⏸ Paused";
+}
+
+function openStream() {
+  window.open('https://goliveafrica.media/live/1/KENYALIFERADIO', '_blank');
+}
+
+radio.addEventListener('playing', () => {
+  status.innerText = "🔴 LIVE - Streaming now";
+});
+
+radio.addEventListener('pause', () => {
+  status.innerText = "⏸ Paused";
+});
+
+radio.addEventListener('error', () => {
+  status.innerText = "⚠ Stream error - trying external link";
+});
+</script>
+
+</body>
+</html>
