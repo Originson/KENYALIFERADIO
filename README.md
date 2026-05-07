@@ -3,141 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kenyan Life Radio</title>
+<title>Kenya Life Radio</title>
+
+<!-- HLS Player -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
 <style>
+:root{
+  --bg-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+  --cover-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4');
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0b0f1a;
   color: #fff;
-  text-align: center;
+  background: var(--bg-image) no-repeat center center fixed;
+  background-size: cover;
 }
-.header {
+
+.overlay {
+  background: rgba(0,0,0,0.6);
+  min-height: 100vh;
   padding: 20px;
-  background: #111a2e;
 }
+
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
 .logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #00d4ff;
+}
+
+.title {
   font-size: 28px;
   font-weight: bold;
-  color: #00d4ff;
+  margin-top: 10px;
 }
-.player {
-  margin-top: 40px;
+
+.cover {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  margin: 20px auto;
+  display: block;
 }
+
+.player-box {
+  max-width: 500px;
+  margin: auto;
+  background: rgba(0,0,0,0.5);
+  padding: 20px;
+  border-radius: 12px;
+}
+
 button {
   background: #00d4ff;
   border: none;
-  padding: 15px 25px;
-  font-size: 18px;
+  padding: 12px 18px;
+  margin: 5px;
   border-radius: 8px;
   cursor: pointer;
-  margin: 10px;
+  font-size: 16px;
 }
+
 button:hover {
   background: #00a3c4;
 }
-.card {
-  background: #111a2e;
-  margin: 20px auto;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 12px;
-}
+
 .status {
-  margin-top: 15px;
+  margin-top: 10px;
   color: #00ff99;
+}
+
+a {
+  color: #00d4ff;
+  text-decoration: none;
 }
 </style>
 </head>
+
 <body>
+<div class="overlay">
 
+<!-- HEADER -->
 <div class="header">
-  <div class="logo">Kenyan Life Radio</div>
-  <p>Live Gospel • Talk • News • Entertainment</p>
+  <!-- EDIT LOGO HERE -->
+  <img src="https://via.placeholder.com/120" class="logo" alt="Logo">
+
+  <div class="title">Kenya Life Radio</div>
+  <p>Live Gospel • Talk • Music • News</p>
 </div>
 
-<div class="player">
-  <div class="card">
-    <h2>🎧 Listen Live</h2>
+<!-- COVER PHOTO -->
+<img src="https://via.placeholder.com/800x400" class="cover" alt="Cover">
 
-  <audio id="radio" controls>
-  <source src="https://goliveafrica.media/live/1/KENYALIFERADIO" type="audio/mpeg">
-</audio>
+<!-- PLAYER -->
+<div class="player-box">
 
-<button onclick="window.open('https://yourstreamlink.m3u8', '_blank')">
-▶ LISTEN LIVE
-</button>
+  <h2>🎧 Listen Live</h2>
 
-<script>
-const radio = document.getElementById('radio');
-const status = document.getElementById('status');
+  <video id="radio" controls autoplay style="width:100%;border-radius:10px;"></video>
 
-function playRadio() {
-  radio.play();
-  status.innerText = "🔴 LIVE - Playing Kenyan Life Radio";
-}
+  <div class="status" id="status">🔴 Connecting...</div>
 
-function pauseRadio() {
-  radio.pause();
-  status.innerText = "⏸ Paused";
-}
+  <button onclick="playRadio()">▶ Play</button>
+  <button onclick="pauseRadio()">⏸ Pause</button>
+  <button onclick="openStream()">🌐 Open Stream</button>
+  <button onclick="openYouTube()">▶ Watch on YouTube</button>
 
-function openStream() {
-  window.open(
-    "https://goliveafrica.media/live/1/KENYALIFERADIO",
-    "_blank"
-  );
-}
+  <p>
+    🔗 Backup: <a href="https://goliveafrica.media/live/1/KENYALIFERADIO" target="_blank">GoLive Stream</a>
+  </p>
 
-radio.addEventListener('playing', () => {
-  status.innerText = "🔴 LIVE - Streaming now";
-});
+</div>
 
-radio.addEventListener('pause', () => {
-  status.innerText = "⏸ Paused";
-});
-
-radio.addEventListener('error', () => {
-  status.innerText = "⚠ Stream error - try external player";
-});
-</script>
-  </div>
 </div>
 
 <script>
-const radio = document.getElementById('radio');
+const stream = "https://goliveafrica.media:9998/live/69fa1ca4e2dad/index.m3u8";
+const video = document.getElementById('radio');
 const status = document.getElementById('status');
 
-function playRadio() {
-  radio.play();
-  status.innerText = "🔴 LIVE - Playing Kenyan Life Radio";
+function initStream() {
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(stream);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+      status.innerText = "🔴 LIVE - Streaming Now";
+    });
+
+    hls.on(Hls.Events.ERROR, function() {
+      status.innerText = "⚠ Stream error - using fallback";
+    });
+  } else {
+    video.src = stream;
+    video.play();
+  }
 }
 
-function pauseRadio() {
-  radio.pause();
+function playRadio(){
+  video.play();
+  status.innerText = "🔴 LIVE";
+}
+
+function pauseRadio(){
+  video.pause();
   status.innerText = "⏸ Paused";
 }
 
-function openStream() {
-  window.open('https://goliveafrica.media/live/1/KENYALIFERADIO', '_blank');
+function openStream(){
+  window.open("https://goliveafrica.media/live/1/KENYALIFERADIO", "_blank");
 }
 
-radio.addEventListener('playing', () => {
-  status.innerText = "🔴 LIVE - Streaming now";
-});
+function openYouTube(){
+  window.open("https://www.youtube.com/@kenyaliferadio", "_blank");
+}
 
-radio.addEventListener('pause', () => {
-  status.innerText = "⏸ Paused";
-});
-
-radio.addEventListener('error', () => {
-  status.innerText = "⚠ Stream error - trying external link";
-});
+initStream();
 </script>
 
 </body>
 </html>
-<a href="https://goliveafrica.media/live/1/KENYALIFERADIO" target="_blank">
-  Open External Stream
-</a>
